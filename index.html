@@ -1,12 +1,85 @@
-<div class="meme-generator">
-  <label>Select an Image</label>
-  <input type="file" id="imageFileInput">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+    }
 
-  <label>Top Text</label>
-  <input type="text" id="topTextInput">
+    #meme-container {
+      position: relative;
+      margin: 20px auto;
+      max-width: 600px;
+    }
 
-  <label>Bottom Text</label>
-  <input type="text" id="bottomTextInput">
+    #meme-image {
+      max-width: 100%;
+      height: auto;
+    }
 
-  <canvas id="meme"></canvas>
-</div>
+    #top-text,
+    #bottom-text {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+    }
+
+    #top-text {
+      top: 10px;
+    }
+
+    #bottom-text {
+      bottom: 10px;
+    }
+
+    input {
+      margin: 10px;
+      padding: 5px;
+    }
+  </style>
+  <title>Meme Generator</title>
+</head>
+<body>
+  <input type="file" accept="image/*" id="image-input">
+  <input type="text" placeholder="Top Text" id="top-input">
+  <input type="text" placeholder="Bottom Text" id="bottom-input">
+  <button onclick="generateMeme()">Generate Meme</button>
+
+  <div id="meme-container">
+    <img id="meme-image" alt="Meme Image">
+    <div id="top-text"></div>
+    <div id="bottom-text"></div>
+  </div>
+
+  <script>
+    function generateMeme() {
+      const imageInput = document.getElementById('image-input');
+      const topInput = document.getElementById('top-input');
+      const bottomInput = document.getElementById('bottom-input');
+      const memeImage = document.getElementById('meme-image');
+      const topText = document.getElementById('top-text');
+      const bottomText = document.getElementById('bottom-text');
+
+      if (imageInput.files.length > 0) {
+        const file = imageInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          memeImage.src = e.target.result;
+          topText.textContent = topInput.value;
+          bottomText.textContent = bottomInput.value;
+        };
+
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+</body>
+</html>
